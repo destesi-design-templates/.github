@@ -18,6 +18,7 @@ manifest picks the base:
 ```
 manifest.json     id, name, description, best_for, backend, es {name, description, best_for}, hero_compact
 src/**            overlaid on the base's src/
+public/assets/*   images the pages or theme.css use as assets/<name>
 skills/*.md       flat; each starts with "# Skill: " — seeded beside Design's own skills
 README.md, LICENSE, .github/   the repository's own, never seeded
 ```
@@ -67,7 +68,21 @@ The catalog, prices, stock, promotions, checkout and payment rules are never a
 template's: Commerce decides them and Inventory owns product identity and
 stock. A template draws them, it never re-derives them.
 
-## Developing
+## Images
+
+WebP, PNG, JPEG or GIF (never SVG), each at most 400 KB and 2 MB per template,
+and every one used: imported (`./demo/p1.webp` in `src/demo.js`) or named
+(`assets/texture.webp`). Design's loader refuses anything else.
+
+## Designing in Design (staff)
+
+Templates → a template → **Open in workbench** opens it as a project of its
+own, in demo mode, with the agent, the sections rail and hand editing; it is
+never published. **Propose as template** sends the design back here as one
+pull request (files a template may not change are listed as left out). Review
+and merge it like any other.
+
+## Developing locally
 
 From a Destesi checkout, with this repository cloned beside it:
 
@@ -75,7 +90,8 @@ From a Destesi checkout, with this repository cloned beside it:
 make -C apps/design/api template-dev DIR=../../../design-templates/<id>
 ```
 
-lays the overlay on the base and runs the Vite dev server in demo mode.
+lays the overlay on the base and runs the Vite dev server in demo mode;
+every save in this repository hot-reloads.
 
 ## Getting a change to merchants
 
