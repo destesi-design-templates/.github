@@ -51,8 +51,9 @@ object literal, ids unique per page, no `.map(`. Its copy is buyer-facing
 Spanish and **goes live on the merchant's shop until they edit it**, so it is
 generic for the vertical and promises nothing a merchant may not keep — no
 delivery times, return windows, warranty terms, free shipping, discounts,
-scarcity or ratings — and never `testimonials`. No block sets `image_url`, and
-nothing names `shop-api/products/<id>`: a template ships to every shop.
+scarcity, ratings or claims about how the products are made ("hecho a mano")
+— and never `testimonials`. No block sets `image_url`, and nothing names
+`shop-api/products/<id>`: a template ships to every shop.
 
 **`src/theme.css`** sits in `@layer components` after `shop.css`, sets the
 `--shop-*` tokens the base reads everywhere, then restyles by
@@ -84,10 +85,10 @@ and merge it like any other.
 
 ## Developing locally
 
-From a Destesi checkout, with this repository cloned beside it:
+From a Destesi checkout, passing the absolute path of this repository's clone:
 
 ```
-make -C apps/design/api template-dev DIR=../../../design-templates/<id>
+make -C apps/design/api template-dev DIR=<absolute path to this repo>
 ```
 
 lays the overlay on the base and runs the Vite dev server in demo mode;
@@ -98,6 +99,8 @@ every save in this repository hot-reloads.
 Merging to `main` publishes nothing. Design pins every template to a reviewed
 commit in `apps/design/api/internal/templates/LOCK.json`
 (`make -C apps/design/api sync-templates`), which refuses a commit that is not
-on `main`, prints what changed, and re-runs the checks above. The pin is the
+on `main` and prints what changed. The checks above run with the lock bump:
+`go test ./internal/templates/ ./internal/connect/` in design-api, and
+design-api refuses to boot on a template that fails to load. The pin is the
 trust boundary: template code runs in merchants' sandboxes and is served to
 real buyers.
